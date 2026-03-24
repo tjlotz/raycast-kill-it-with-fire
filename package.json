@@ -9,6 +9,9 @@
         "Fun"
     ],
     "license": "MIT",
+    "platforms": [
+        "mac"
+    ],
     "keywords": [
         "fire",
         "flames",
