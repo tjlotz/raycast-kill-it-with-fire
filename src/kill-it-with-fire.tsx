@@ -15,32 +15,32 @@ import fs from "fs";
 const DURATION_SEC = "6";
 
 export default async function Command() {
-    const overlayBin = path.join(environment.assetsPath, "overlay");
-    const flamePath = path.join(environment.assetsPath, "flame.html");
+  const overlayBin = path.join(environment.assetsPath, "overlay");
+  const flamePath = path.join(environment.assetsPath, "flame.html");
 
-    // Ensure the binary has execute permission (Raycast's asset pipeline may strip it).
-    try {
-        fs.chmodSync(overlayBin, 0o755);
-    } catch (e) {
-        console.error("chmod failed:", e);
-    }
+  // Ensure the binary has execute permission (Raycast's asset pipeline may strip it).
+  try {
+    fs.chmodSync(overlayBin, 0o755);
+  } catch (e) {
+    console.error("chmod failed:", e);
+  }
 
-    // Verify both files exist before launching.
-    if (!fs.existsSync(overlayBin)) {
-        await showHUD("❌ overlay binary not found");
-        return;
-    }
-    if (!fs.existsSync(flamePath)) {
-        await showHUD("❌ flame.html not found");
-        return;
-    }
+  // Verify both files exist before launching.
+  if (!fs.existsSync(overlayBin)) {
+    await showHUD("❌ overlay binary not found");
+    return;
+  }
+  if (!fs.existsSync(flamePath)) {
+    await showHUD("❌ flame.html not found");
+    return;
+  }
 
-    // Spawn the overlay as a detached process so Raycast doesn't wait on it.
-    const child = spawn(overlayBin, [flamePath, DURATION_SEC], {
-        detached: true,
-        stdio: "ignore",
-    });
-    child.unref();
+  // Spawn the overlay as a detached process so Raycast doesn't wait on it.
+  const child = spawn(overlayBin, [flamePath, DURATION_SEC], {
+    detached: true,
+    stdio: "ignore",
+  });
+  child.unref();
 
-    await showHUD("🔥 Kill it with fire!");
+  await showHUD("🔥 Kill it with fire!");
 }
