@@ -7,9 +7,9 @@
  *
  * Architecture
  * ────────────
- *  Particle     – individual flame or smoke sprite with physics & rendering.
- *  Emitter      – base class that spawns particles at a fixed position.
- *  RisingEmitter        – (unused / kept for reference) rises vertically.
+ *  Particle      – individual flame or smoke sprite with physics & rendering.
+ *  Emitter       – base class that spawns particles at a fixed position.
+ *  RisingEmitter – (unused / kept for reference) rises vertically.
  *  FullWidthGrowingEmitter – the main effect: spans full viewport width and
  *                            grows upward to the midpoint of the screen.
  *
@@ -63,16 +63,16 @@ class Particle {
             // Flame: fast, mostly-upward, short-lived, bright.
             const spread = 0.6;
             const ang = (Math.random() - 0.5) * Math.PI * spread - Math.PI / 2;
-            const speed = 200 + Math.random() * 200;           // px / sec
+            const speed = 200 + Math.random() * 200;            // px / sec
             this.vx = Math.cos(ang) * speed / 60;
-            this.vy = Math.sin(ang) * speed / 60;              // negative → up
+            this.vy = Math.sin(ang) * speed / 60;               // negative → up
             this.maxLife = 700 + Math.random() * 900;           // ms
             this.size = 8 + Math.random() * 20;
             this.gravity = 20;                                  // small downward pull
         } else {
             // Smoke: slow, drifty, longer-lived, translucent gray.
             this.vx = (Math.random() - 0.5) * 12 / 60;
-            this.vy = -(8 + Math.random() * 30) / 60;          // slow rise
+            this.vy = -(8 + Math.random() * 30) / 60;           // slow rise
             this.maxLife = 1000 + Math.random() * 1600;         // ms (~1–2.6 s)
             this.size = 14 + Math.random() * 40;
             this.gravity = -6;                                  // upward buoyancy
@@ -95,13 +95,13 @@ class Particle {
 
         // Tiny random gusts add turbulence.
         this.vx += (Math.random() - 0.5) * 0.6 * dtSec;
-        this.vx *= Math.pow(0.985, dtSec * 60);               // drag
+        this.vx *= Math.pow(0.985, dtSec * 60);                // drag
         this.vy += (this.gravity / 60) * dtSec * 60;           // gravity / buoyancy
 
         this.x += (this.vx + flicker) * dtSec * 60;
         this.y += this.vy * dtSec * 60;
         this.life -= dt;
-        this.size *= 1 - 0.002 * (dt / 16);                   // gradual shrink
+        this.size *= 1 - 0.002 * (dt / 16);                    // gradual shrink
     }
 
     /**
@@ -326,7 +326,7 @@ class FullWidthGrowingEmitter extends Emitter {
             const s = new Particle(sx, sy, { type: 'smoke' });
             s.maxLife = 2000 + Math.random() * 2200;           // longer life → reaches top
             s.life = s.maxLife;
-            s.vy = -(20 + Math.random() * 60) / 60;           // faster upward
+            s.vy = -(20 + Math.random() * 60) / 60;            // faster upward
             particles.push(s);
         }
 
